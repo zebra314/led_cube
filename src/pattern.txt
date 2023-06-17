@@ -1,0 +1,64 @@
+1. wave mode :
+int j = 0;
+int k = 0;
+int last_pin;
+int led_pattern[6] = { MAX_11111000, MAX_11110000, MAX_11101000, MAX_11011000, MAX_10111000, MAX_01111000};
+void SysTick_Handler() {
+	if(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk){
+		// Toggle LED display
+		#ifdef DEBUG_led
+		toggle_output(LED_gpio, LED_pin_1);
+		#endif
+		
+		int pin = 0;
+		reset_gpio(LED_gpio, last_pin);
+		
+		if(k%5 == 0)
+			pin = LED_layer_3;
+		else if(k%5 == 1)
+			pin = LED_layer_4;
+		else if(k%5 == 2)
+			pin = LED_layer_5;
+		else if(k%5 == 3)
+			pin = LED_layer_1;
+		else if(k%5 == 4)
+			pin = LED_layer_2;
+		last_pin = pin;
+		set_gpio(LED_gpio, pin);
+
+		for(int i=0; i<8; i++){
+			send_max7219(MAX7219_gpio, MAX7219_DIN, MAX7219_CS, MAX7219_CLK, i+1, led_pattern[j%6]);
+		}
+		k++;
+		j++;
+	}
+}
+
+// Configure SysTick clk to 10 Mhz and interrupt every 0.4s
+SystemClock_Config_Interrupt(10, 100000);
+
+2. bounce
+Point point = {	.x_pos = 5,
+				.y_pos = 5,
+				.z_pos = 5,
+				.x_dir = -0.348,
+				.y_dir = -0.384,
+				.z_dir = -0.87,
+			};
+
+// Check if the program is running
+// #define DEBUG_led 
+void SysTick_Handler() {
+	if(SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk){
+		// Toggle LED display
+		#ifdef DEBUG_led
+		toggle_output(LED_gpio, LED_pin_1);
+		#endif
+		Point new_point = colliding(point);
+		// Point new_point_1 = colliding(point_1);
+		display((int)(new_point.x_pos),(int)(new_point.y_pos),(int)(new_point.z_pos));
+		// display((int)(new_point_1.x_pos),(int)(new_point_1.y_pos),(int)(new_point_1.z_pos));
+		point = new_point;
+		// point_1 = new_point_1;
+	}
+}
