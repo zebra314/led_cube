@@ -11,6 +11,14 @@ This is the final project for Microprocessor_2023, my partner @chrispies181 and 
 ![max7219](/asset/image3.jpg)
 
 ## Steps
+<style>
+    .preview_model {
+        width: 100%;
+        height: 30vh;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+</style>
 1. Welding the led matrix:
     - To bend the pins of LEDs and arrange them from a row to a layer, and then assemble them into an LED cube. 
     - In each layer, the positive pins connect with each other, the negative pins connect vertically with the LEDs of the top and bottom side from the other layers.
@@ -18,8 +26,11 @@ This is the final project for Microprocessor_2023, my partner @chrispies181 and 
     ![single LED](/asset/image7.png)
     ![single layer](/asset/image8.png)
     - LED cube
-    - [view in full page](/asset/LED_cube.html)
-    -![LED cube](/asset/image9.png)
+<p align="center">
+    <iframe class='preview_model' src="/asset/LED_cube.html"></iframe>
+</p>
+    <!-- - [view in full page](/asset/LED_cube.html) -->
+    <!-- -![LED cube](/asset/image9.png) -->
     <!-- <iframe src="asset/LED_cube.html" width="600" height="400"></iframe> -->
 
 2. Welding the transistor:
